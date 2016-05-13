@@ -85,21 +85,19 @@ articleView.create = function() {
   });
   // Clear out the #articles element, so we can put in the updated preview
   $('#articles').empty();
-  // TODO:DONE Instantiate an article based on what's in the form fields:
-
+  // TODO: Instantiate an article based on what's in the form fields:
   // TODO: Since formArticle is an instance of the Article constructor,
   // we can use the .toHtml method on it to append this new article
   // into the DOM:
   $('#articles').append(formArticle.toHtml('#article-template'));
 
   // TODO: Activate the highlighting of any code blocks:
-  $('pre code').each(function(i,block) {
+  $('pre code').each(function(i, block){
     hljs.highlightBlock(block);
-
   });
   // TODO: Export the new article as JSON, so it's ready to copy/paste into blogArticles.js:
   $('#export-field').show();
-  $('#article-json').val(JSON.stringify(formArticle) + ',');
+  $('#article-json').val(JSON.stringify(formArticle) + ', ');
 };
 
 
