@@ -59,30 +59,47 @@ articleView.setTeasers = function() {
 
 articleView.initNewArticlePage = function() {
   // TODO: Ensure the main .tab-content area is revealed. We might add more tabs later.
-
+  $('.tab-content').show();
   // TODO: The new articles we create will be copy/pasted into our source data file.
   // Set up this "export" functionality. We can hide it for now, and show it once we
   // have data to export. Also, let's add a focus event to help us select the JSON.
-
+  $('#export-field').hide();
+  $('#article-json').on('focus', function() {
+    $(this.select());
+  });
   // TODO: Add an event handler to update the preview and the export field if any inputs change.
+  $('#new-form').on('change', 'input', 'textarea', articleView.create);
 };
 
 articleView.create = function() {
   // TODO: Set up a var to hold the new article we are creating.
   var formArticle = new Article({
-
+    //pull properties from the element ID's in html and hold their values
+    title: $('#article-title').val(),
+    body: $('#article-body').val(),
+    author: $('#article-author').val(),
+    authorUrl: $('#article-author-url').val(),
+    articleCategory: $('#article-category').val(),
+    //used checked pseudo-selector, checked length = 1
+    //? checks to see if left of colon is true, else we'll make it null
+    publishedOn: $('#article-published:checked').length ? new Date() : null
   });
   // Clear out the #articles element, so we can put in the updated preview
-
+  $('#articles').empty();
   // TODO: Instantiate an article based on what's in the form fields:
-
+  // DONE above
   // TODO: Since formArticle is an instance of the Article constructor,
   // we can use the .toHtml method on it to append this new article
   // into the DOM:
-
+  $('#articles').append(formArticle.toHtml('#article-template'));
   // TODO: Activate the highlighting of any code blocks:
-
+  // will pickup any <pre> and <code> are tags
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
   // TODO: Export the new article as JSON, so it's ready to copy/paste into blogArticles.js:
+  $('#export-field').show();
+  $('#article-json').val(JSON.stringify(formArticle) + ',');
 };
 
 
